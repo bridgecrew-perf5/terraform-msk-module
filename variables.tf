@@ -81,14 +81,14 @@ variable "msk_config_kafka_versions" {
 }
 
 variable "msk_config_name" {
-  description = "Name of the configuration.."
+  description = "Name of the configuration."
   type        = string
   default     = "SG"
 }
 
 variable "msk_ebs_volume_size" {
   description = "The size in GiB of the EBS volume for the data drive on each broker node."
-  type        = string
+  type        = number
   default     = 100
 }
 
