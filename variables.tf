@@ -1,23 +1,7 @@
-# ---------------------------------------------------------------------------------------------------------------------
-# REQUIRED PARAMETERS
-# These parameters have reasonable defaults.
-# ---------------------------------------------------------------------------------------------------------------------
-variable "region" {
-  description = "Region where resources will be created."
-  type        = string
-  default     = "us-east-1"
-}
-
-variable "owner" {
-  description = "Resource owners Active Directory user id."
-  type        = string
-  default     = "owner"
-}
-
-variable "costcenter" {
-  description = "Costcenter associated with these resoures."
-  type        = string
-  default     = "cc"
+variable "additional_tags" {
+  description = "A mapping of additional tags to assign to all resources."
+  type        = map(string)
+  default     = {}
 }
 
 variable "app_name" {
@@ -31,30 +15,22 @@ variable "app_name" {
   }
 }
 
-variable "environment" {
-  description = "Environment the resources are being provisioned for. Valid options are 'prod', 'uat', 'dev', 'qa' 'sandbox'."
+variable "cloudwatch_log_group_name" {
+  description = "Name of the Cloudwatch Log Group to deliver logs to."
   type        = string
-  default     = "dev"
-
-  validation {
-    condition     = contains(["prod", "uat", "qa", "dev", "sandbox"], var.environment)
-    error_message = "Must be a valid and environment. Acceptable types are prod, uat, qa, dev and sandbox."
-  }
+  default     = "msk_broker_logs"
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC in which MSK will be attached."
+variable "cloudwatch_logs_enable" {
+  description = "Indicates whether you want to enable or disable streaming broker logs to Cloudwatch Logs."
+  type        = bool
+  default     = true
+}
+
+variable "costcenter" {
+  description = "Costcenter associated with these resoures."
   type        = string
-}
-
-variable "msk_subnet_ids" {
-  description = "List of subnet IDs to use for MSK private subnets."
-  type        = list(string)
-}
-
-variable "msk_security_group_ids" {
-  description = "A list of security group IDs to assign to the MSK cluster."
-  type        = list(string)
+  default     = "cc"
 }
 
 variable "encryption_at_rest_kms_key_arn" {
@@ -75,33 +51,21 @@ variable "encryption_in_transit_in_cluster" {
   default     = true
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-# These parameters have reasonable defaults.
-# ---------------------------------------------------------------------------------------------------------------------
-
-variable "additional_tags" {
-  description = "A mapping of additional tags to assign to all resources."
-  type        = map(string)
-  default     = {}
-}
-
 variable "enhanced_monitoring" {
   description = "Specify the desired enhanced MSK CloudWatch monitoring level to one of three monitoring levels: DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER or PER_TOPIC_PER_PARTITION. See [Monitoring Amazon MSK with Amazon CloudWatch](https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html)."
   type        = string
   default     = "PER_BROKER"
 }
 
-variable "cloudwatch_log_group_name" {
-  description = "Name of the Cloudwatch Log Group to deliver logs to."
+variable "environment" {
+  description = "Environment the resources are being provisioned for. Valid options are 'prod', 'uat', 'dev', 'qa' 'sandbox'."
   type        = string
-  default     = "msk_broker_logs"
-}
+  default     = "dev"
 
-variable "s3_bucket_acl" {
-  description = "The canned ACL to apply."
-  type        = string
-  default     = "private"
+  validation {
+    condition     = contains(["prod", "uat", "qa", "dev", "sandbox"], var.environment)
+    error_message = "Must be a valid and environment. Acceptable types are prod, uat, qa, dev and sandbox."
+  }
 }
 
 variable "kafka_version" {
@@ -110,16 +74,62 @@ variable "kafka_version" {
   default     = "2.6.1"
 }
 
+variable "msk_config_kafka_versions" {
+  description = "List of Apache Kafka versions which can use this configuration."
+  type        = list(string)
+  default     = ["2.6.1"]
+}
+
+variable "msk_config_name" {
+  description = "Name of the configuration.."
+  type        = string
+  default     = "SG"
+}
+
+variable "msk_ebs_volume_size" {
+  description = "The size in GiB of the EBS volume for the data drive on each broker node."
+  type        = string
+  default     = 100
+}
+
+variable "msk_instance_type" {
+  description = "Specify the instance type to use for the kafka brokers."
+  type        = string
+  default     = "kafka.m5.large"
+}
+
+variable "msk_security_group_ids" {
+  description = "A list of security group IDs to assign to the MSK cluster."
+  type        = list(string)
+}
+
+variable "msk_subnet_ids" {
+  description = "List of subnet IDs to use for MSK private subnets."
+  type        = list(string)
+}
+
 variable "number_of_broker_nodes" {
   description = "The desired total number of broker nodes in the kafka cluster. It must be a multiple of the number of specified client subnets."
   type        = number
   default     = 2
 }
 
-variable "cloudwatch_logs_enable" {
-  description = "Indicates whether you want to enable or disable streaming broker logs to Cloudwatch Logs."
-  type        = bool
-  default     = true
+variable "owner" {
+  description = "Resource owners Active Directory user id."
+  type        = string
+  default     = "owner"
+}
+
+variable "region" {
+  description = "Region where resources will be created."
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "s3_bucket_acl" {
+  description = "The canned ACL to apply."
+  type        = string
+  default     = "private"
 }
 
 variable "s3_logs_enable" {
@@ -134,26 +144,7 @@ variable "s3_logs_prefix" {
   default     = "msk/2021"
 }
 
-variable "msk_instance_type" {
-  description = "Specify the instance type to use for the kafka brokers."
+variable "vpc_id" {
+  description = "ID of the VPC in which MSK will be attached."
   type        = string
-  default     = "kafka.m5.large"
-}
-
-variable "msk_ebs_volume_size" {
-  description = "The size in GiB of the EBS volume for the data drive on each broker node."
-  type        = string
-  default     = 100
-}
-
-variable "msk_config_kafka_versions" {
-  description = "List of Apache Kafka versions which can use this configuration."
-  type        = list(string)
-  default     = ["2.6.1"]
-}
-
-variable "msk_config_name" {
-  description = "Name of the configuration.."
-  type        = string
-  default     = "SG"
 }
