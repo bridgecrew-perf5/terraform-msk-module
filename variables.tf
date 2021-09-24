@@ -127,7 +127,7 @@ variable "region" {
 }
 
 variable "server_properties" {
-  description = " Contents of the server.properties file."
+  description = "Contents of the server.properties file."
   type        = string
   default     = <<PROPERTIES
      auto.create.topics.enable=true
