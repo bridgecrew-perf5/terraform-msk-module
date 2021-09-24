@@ -54,7 +54,7 @@ module "msk" {
 | msk\_subnet\_ids | List of subnet IDs to use for MSK private subnets. | `list(string)` | n/a | yes |
 | owner | Resource owners Active Directory user id. | `string` | `"owner"` | no |
 | region | Region where resources will be created. | `string` | `"us-east-1"` | no |
-| server\_properties | Contents of the server.properties file. | `string` | <pre>  auto.create.topics.enable=true<br>  default.replication.factor=2<br>  min.insync.replicas=2<br>  num.io.threads=8<br>  num.network.threads=5<br>  num.partitions=2<br>  num.replica.fetchers=2<br>  replica.lag.time.max.ms=30000<br>  socket.receive.buffer.bytes=102400<br>  socket.request.max.bytes=104857600<br>  socket.send.buffer.bytes=102400<br>  unclean.leader.election.enable=true<br>  zookeeper.session.timeout.ms=18000</pre> | no |
+| server\_properties | Contents of the server.properties file. | `string` | <pre><<PROPERTIES<br>  auto.create.topics.enable=true<br>  default.replication.factor=2<br>  min.insync.replicas=2<br>  num.io.threads=8<br>  num.network.threads=5<br>  num.partitions=2<br>  num.replica.fetchers=2<br>  replica.lag.time.max.ms=30000<br>  socket.receive.buffer.bytes=102400<br>  socket.request.max.bytes=104857600<br>  socket.send.buffer.bytes=102400<br>  unclean.leader.election.enable=true<br>  zookeeper.session.timeout.ms=18000<br>PROPERTIES</pre> | no |
 | s3\_bucket\_acl | The canned ACL to apply. | `string` | `"private"` | no |
 | s3\_logs\_enable | Indicates whether you want to enable or disable streaming broker logs to S3. | `bool` | `true` | no |
 | s3\_logs\_prefix | Prefix to append to the folder name. | `string` | `"msk/2021"` | no |
