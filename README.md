@@ -54,6 +54,7 @@ module "msk" {
 | msk\_subnet\_ids | List of subnet IDs to use for MSK private subnets. | `list(string)` | n/a | yes |
 | owner | Resource owners Active Directory user id. | `string` | `"owner"` | no |
 | region | Region where resources will be created. | `string` | `"us-east-1"` | no |
+| server\_properties | Contents of the server.properties file. | `string` | `""` | no |
 | s3\_bucket\_acl | The canned ACL to apply. | `string` | `"private"` | no |
 | s3\_logs\_enable | Indicates whether you want to enable or disable streaming broker logs to S3. | `bool` | `true` | no |
 | s3\_logs\_prefix | Prefix to append to the folder name. | `string` | `"msk/2021"` | no |
