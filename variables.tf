@@ -126,6 +126,26 @@ variable "region" {
   default     = "us-east-1"
 }
 
+variable "server_properties" {
+  description = " Contents of the server.properties file."
+  type        = string
+  default     = <<PROPERTIES
+     auto.create.topics.enable=true
+     default.replication.factor=2
+     min.insync.replicas=2
+     num.io.threads=8
+     num.network.threads=5
+     num.partitions=2
+     num.replica.fetchers=2
+     replica.lag.time.max.ms=30000
+     socket.receive.buffer.bytes=102400
+     socket.request.max.bytes=104857600
+     socket.send.buffer.bytes=102400
+     unclean.leader.election.enable=true
+     zookeeper.session.timeout.ms=18000
+   PROPERTIES
+}
+
 variable "s3_bucket_acl" {
   description = "The canned ACL to apply."
   type        = string
