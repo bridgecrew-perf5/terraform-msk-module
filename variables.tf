@@ -143,13 +143,13 @@ variable "msk_instance_type" {
 variable "msk_ebs_volume_size" {
   description = "The size in GiB of the EBS volume for the data drive on each broker node."
   type        = string
-  default     = "kafka.m5.large"
+  default     = 100
 }
 
 variable "msk_config_kafka_versions" {
   description = "List of Apache Kafka versions which can use this configuration."
-  type        = list
-  default     = "["2.6.1"]"
+  type        = list(string)
+  default     = ["2.6.1"]
 }
 
 variable "msk_config_name" {
